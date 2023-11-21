@@ -17,7 +17,7 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/bin/bash";
 char *utmp = NULL;
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = NULL;
@@ -61,7 +61,7 @@ static double maxlatency = 33;
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
  * attribute.
  */
-static unsigned int blinktimeout = 800;
+static unsigned int blinktimeout = 0;
 
 /*
  * thickness of underline and bar cursors
@@ -113,7 +113,7 @@ float alphaUnfocus;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	"#282828", /* hard contrast: #1d2021 / soft contrast: #32302f */
+	"#1d2021", /* hard contrast: #1d2021 / soft contrast: #32302f */
 	"#cc241d",
 	"#98971a",
 	"#d79921",
@@ -229,8 +229,8 @@ ResourcePref resources[] = {
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
-	{ XK_NO_MOD,            Button4, kscrollup,      {.i = 1} },
-	{ XK_NO_MOD,            Button5, kscrolldown,    {.i = 1} },
+	{ XK_NO_MOD,            Button4, kscrollup,      {.i = 2} },
+	{ XK_NO_MOD,            Button5, kscrolldown,    {.i = 2} },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
@@ -244,12 +244,48 @@ static MouseShortcut mshortcuts[] = {
 
 static char *openurlcmd[] = { "/bin/sh", "-c", "st-urlhandler -o", "externalpipe", NULL };
 static char *copyurlcmd[] = { "/bin/sh", "-c", "st-urlhandler -c", "externalpipe", NULL };
-static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout", "externalpipe", NULL };
+static char *copyoutput[] = { "/bin/sh", "-c", "st-copyout",       "externalpipe", NULL };
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
 	{ XK_ANY_MOD,           XK_Break,       sendbreak,      {.i =  0} },
+
+	{ ControlMask,			XK_KP_Subtract,	        changealpha, {.f = -0.05} },
+	{ ControlMask,			XK_KP_Add,		        changealpha, {.f = +0.05} },
+	{ ControlMask,          XK_bracketleft,         kscrollup,      {.i =  1} },
+	{ ControlMask,          XK_bracketright,        kscrolldown,    {.i =  1} },
+	{ ControlMask,          XK_equal,				zoom,           {.f = +1} },
+	{ ControlMask,          XK_minus,				zoom,           {.f = -1} },
+	{ ControlMask,          XK_BackSpace,           zoomreset,      {.f =  0} }, 
+	{ ControlMask,          XK_q,                   clipcopy,       {.i =  0} },
+	{ ControlMask,          XK_i,                   clippaste,      {.i =  0} },
+	{ ControlMask,          XK_j,                   kscrolldown,    {.i = -1} },
+	{ ControlMask,          XK_k,                   kscrollup,      {.i = -1} },
+	{ ControlMask,          XK_s,                   externalpipe,   {.v = copyoutput } },
+	//{ MODKEY,				  XK_s,		      changealpha, {.f = -0.05} },
+	//{ MODKEY,		 		  XK_a,		      changealpha, {.f = +0.05} },
+	//{ TERMMOD,              XK_Up,          zoom,           {.f = +1} },
+	//{ TERMMOD,              XK_Down,        zoom,           {.f = -1} },
+	//{ MODKEY,               XK_Up,          kscrollup,      {.i =  1} },
+	//{ MODKEY,               XK_Down,        kscrolldown,    {.i =  1} },
+	//{ TERMMOD,              XK_Up,          zoom,           {.f = +1} },
+	//{ TERMMOD,              XK_Down,        zoom,           {.f = -1} },
+	//{ TERMMOD,              XK_K,           zoom,           {.f = +1} },
+	//{ TERMMOD,              XK_J,           zoom,           {.f = -1} },
+	//{ TERMMOD,              XK_U,           zoom,           {.f = +2} },
+	//{ TERMMOD,              XK_D,           zoom,           {.f = -2} },
+
+    //{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
+    //{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
+	/* mask                 keysym          function        argument */
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
+	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
+	{ ShiftMask,            XK_Insert,      clippaste,      {.i =  0} },
+	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
+	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
+	/* mask                 keysym          function        argument */
+/*  { ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
 	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
@@ -282,7 +318,7 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_D,           zoom,           {.f = -2} },
 	{ MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
 	{ MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
-	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+	{ MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } }, */
 };
 
 /*
@@ -364,11 +400,15 @@ static Key key[] = {
 	{ XK_KP_Delete,     XK_ANY_MOD,     "\033[3~",      +1,    0},
 	{ XK_KP_Multiply,   XK_ANY_MOD,     "\033Oj",       +2,    0},
 	{ XK_KP_Add,        XK_ANY_MOD,     "\033Ok",       +2,    0},
+
+    // possible
 	{ XK_KP_Enter,      XK_ANY_MOD,     "\033OM",       +2,    0},
 	{ XK_KP_Enter,      XK_ANY_MOD,     "\r",           -1,    0},
+
 	{ XK_KP_Subtract,   XK_ANY_MOD,     "\033Om",       +2,    0},
 	{ XK_KP_Decimal,    XK_ANY_MOD,     "\033On",       +2,    0},
 	{ XK_KP_Divide,     XK_ANY_MOD,     "\033Oo",       +2,    0},
+
 	{ XK_KP_0,          XK_ANY_MOD,     "\033Op",       +2,    0},
 	{ XK_KP_1,          XK_ANY_MOD,     "\033Oq",       +2,    0},
 	{ XK_KP_2,          XK_ANY_MOD,     "\033Or",       +2,    0},
@@ -416,8 +456,11 @@ static Key key[] = {
 	{ XK_Right,         XK_ANY_MOD,     "\033[C",        0,   -1},
 	{ XK_Right,         XK_ANY_MOD,     "\033OC",        0,   +1},
 	{ XK_ISO_Left_Tab,  ShiftMask,      "\033[Z",        0,    0},
+
+    // possible
 	{ XK_Return,        Mod1Mask,       "\033\r",        0,    0},
 	{ XK_Return,        XK_ANY_MOD,     "\r",            0,    0},
+
 	{ XK_Insert,        ShiftMask,      "\033[4l",      -1,    0},
 	{ XK_Insert,        ShiftMask,      "\033[2;2~",    +1,    0},
 	{ XK_Insert,        ControlMask,    "\033[L",       -1,    0},
@@ -534,7 +577,6 @@ static Key key[] = {
 	{ XK_F34,           XK_NO_MOD,      "\033[21;5~",    0,    0},
 	{ XK_F35,           XK_NO_MOD,      "\033[23;5~",    0,    0},
 };
-
 /*
  * Selection types' masks.
  * Use the same masks as usual.
