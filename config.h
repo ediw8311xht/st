@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "mono:pixelsize=12:antialias=true:autohint=true";
+static char *font = "Agave:style=Bold:pixelsize=29:antialias=false:autohint=false";
 static char *font2[] = { "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
 static int borderpx = 2;
 
@@ -15,7 +15,7 @@ static int borderpx = 2;
  * 2: scroll and/or utmp
  * 3: SHELL environment variable
  * 4: value of shell in /etc/passwd
- * 5: value of shell in config.h
+ * 5: value of shell in config.hH
  */
 static char *shell = "/bin/bash";
 char *utmp = NULL;
@@ -27,8 +27,8 @@ char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 1.0;
-static float chscale = 1.0;
+static float cwscale = 1.10;
+static float chscale = 0.85;
 
 /*
  * word delimiter string
@@ -75,7 +75,7 @@ static unsigned int cursorthickness = 2;
  * 0: disable (render all U25XX glyphs normally from the font).
  */
 const int boxdraw = 1;
-const int boxdraw_bold = 0;
+const int boxdraw_bold = 1;
 
 /* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
 const int boxdraw_braille = 0;
@@ -107,7 +107,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.8;
+float alpha = 1;
 float alphaOffset = 0.0;
 float alphaUnfocus;
 
@@ -256,7 +256,7 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_bracketright,        kscrolldown,    {.i =  1} },
 	{ ControlMask,          XK_equal,				zoom,           {.f = +1} },
 	{ ControlMask,          XK_minus,				zoom,           {.f = -1} },
-	{ ControlMask,          XK_BackSpace,           zoomreset,      {.f =  0} }, 
+	{ ControlMask,          XK_BackSpace,           zoomreset,      {.f =  0} },
 	{ ControlMask,          XK_q,                   clipcopy,       {.i =  0} },
 	{ ControlMask,          XK_i,                   clippaste,      {.i =  0} },
 	{ ControlMask,          XK_j,                   kscrolldown,    {.i = -1} },
