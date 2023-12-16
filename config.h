@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Agave:style=Bold:pixelsize=29:antialias=false:autohint=false";
+static char *font = "FiraCode:style=Medium:pixelsize=13:antialias=false:autohint=false";
 static char *font2[] = { "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
 static int borderpx = 2;
 
@@ -27,8 +27,8 @@ char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 1.10;
-static float chscale = 0.85;
+static float cwscale = 1.0;
+static float chscale = 1.0;
 
 /*
  * word delimiter string
