@@ -5,8 +5,22 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "FiraCode:style=Medium:pixelsize=13:antialias=false:autohint=false";
-static char *font2[] = { "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true" };
+static char *font = "IosevkaCustom:size=13:antialias=false:autohint=false";
+static char *font2[] = { "IosevkaCustom:size=13:antialias=false:autohint=false",
+                         "Agave:style=Medium:pixelsize=15:antialias=true:autohint=true",
+                         "Iosevka:style=Medium:pixelsize=11:antialias=true:autohint=true",
+                         "IosevkaCustom:style=Medium:pixelsize=13:antialias=false:autohint=false",
+                         "FiraCode:style=Medium:pixelsize=14:antialias=true:autohint=false",
+                         "MononokiNerdFontMono:style=Medium:pixelsize=15:antialias=true:autohint=true",
+                         "IBMPlexMono:style=Medium:size=10:antialias=true:autohint=false",
+                         "IBM 3270:style=Medium:size=11:antialias=true:autohint=true",
+                         "Consolas:size=11:antialias=true:autohint=true",
+                         "TerminessTTF Nerd Font Mono:size=12:style=Medium:autohint=true:antialias=true",
+                         "Hack:style=Medium:pixelsize=14:antialias=true:autohint=true",
+                         "Hermit:size=13:antialias=true:autohint=true",
+                         "ShareTechMono:pixelsize=13:style=Regular:autohint=true:antialias=true",
+                         "Courier:style=Medium:size=13:antialias=false",
+                         "FantasqueSansMono:style=Regular:pixelsize=13:autohint=true:antialias=true" };
 static int borderpx = 2;
 
 /*
@@ -66,7 +80,7 @@ static unsigned int blinktimeout = 0;
 /*
  * thickness of underline and bar cursors
  */
-static unsigned int cursorthickness = 2;
+static unsigned int cursorthickness = 3;
 
 /*
  * 1: render most of the lines/blocks characters without using the font for
