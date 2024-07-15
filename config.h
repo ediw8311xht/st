@@ -41,8 +41,12 @@ char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
-static float cwscale = 1.0;
-static float chscale = 1.0;
+//------------------TESTING-----------------------------------
+static float cwscale = 1.12;
+static float chscale = 1.12;
+//static float cwscale = 1.0;
+//static float chscale = 1.0;
+//------------------------------------------------------------
 
 /*
  * word delimiter string
@@ -88,8 +92,10 @@ static unsigned int cursorthickness = 3;
  *    Bold affects lines thickness if boxdraw_bold is not 0. Italic is ignored.
  * 0: disable (render all U25XX glyphs normally from the font).
  */
-const int boxdraw = 1;
-const int boxdraw_bold = 1;
+//------------------TESTING-----------------------------------
+const int boxdraw = 0;
+const int boxdraw_bold = 0;
+//------------------------------------------------------------
 
 /* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
 const int boxdraw_braille = 0;
@@ -118,7 +124,10 @@ char *termname = "st-256color";
  *
  *	stty tabs
  */
-unsigned int tabspaces = 8;
+
+//------------------TESTING-----------------------------------
+unsigned int tabspaces = 4;
+//------------------------------------------------------------
 
 /* bg opacity */
 float alpha = 1;
@@ -275,7 +284,7 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_i,                   clippaste,      {.i =  0} },
 	{ ControlMask,          XK_j,                   kscrolldown,    {.i = -1} },
 	{ ControlMask,          XK_k,                   kscrollup,      {.i = -1} },
-	{ ControlMask,          XK_s,                   externalpipe,   {.v = copyoutput } },
+    // { ControlMask,          XK_s,                   externalpipe,   {.v = copyoutput } },
 	//{ MODKEY,				  XK_s,		      changealpha, {.f = -0.05} },
 	//{ MODKEY,		 		  XK_a,		      changealpha, {.f = +0.05} },
 	//{ TERMMOD,              XK_Up,          zoom,           {.f = +1} },
